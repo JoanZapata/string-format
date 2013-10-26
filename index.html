@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>String-format by JoanZapata</title>
+    <title>string-format by JoanZapata</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -15,8 +15,8 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>String-format</h1>
-        <p>A much better alternative than String.format() for big strings.</p>
+        <h1>string-format</h1>
+        <p>An alternative for String.format() when it comes to big strings.</p>
 
         <p class="view"><a href="https://github.com/JoanZapata/string-format">View the Project on GitHub <small>JoanZapata/string-format</small></a></p>
 
@@ -29,13 +29,56 @@
       </header>
       <section>
         <h1>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+<a name="before-string-format" class="anchor" href="#before-string-format"><span class="octicon octicon-link"></span></a>Before <code>string-format</code>
+</h1>
 
-<div class="highlight highlight-java"><pre><span class="n">Strings</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"Hello {firstname} {lastname}!"</span><span class="o">)</span>
-    <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"firstname"</span><span class="o">,</span> <span class="s">"John"</span><span class="o">)</span>
-    <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"lastname"</span><span class="o">,</span> <span class="s">"Doe"</span><span class="o">)</span>
-    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<p>There are a few situations in which you need to construct a big string with a lot of arguments.
+In these situations, one of your options is to concatenate each part like this:</p>
+
+<div class="highlight highlight-java"><pre><span class="n">String</span> <span class="n">query</span> <span class="o">=</span> <span class="s">"SELECT "</span> <span class="o">+</span> <span class="n">COLUMN_ID</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">COLUMN_NAME</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">COLUMN_LATITUDE</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">COLUMN_LONGITUDE</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span>
+                        <span class="s">"FROM "</span> <span class="o">+</span> <span class="n">TABLE_NAME</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span>
+                        <span class="s">"WHERE "</span> <span class="o">+</span> <span class="n">COLUMN_NAME</span> <span class="o">+</span> <span class="s">" LIKE "</span> <span class="o">+</span> <span class="n">search</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span>
+                        <span class="s">"ORDER BY "</span> <span class="o">+</span> <span class="n">COLUMN_NAME</span> <span class="o">+</span> <span class="s">" LIMIT "</span> <span class="o">+</span> <span class="n">maxResult</span> <span class="o">+</span> <span class="s">" OFFSET "</span> <span class="o">+</span> <span class="n">from</span><span class="o">;</span>
 </pre></div>
+
+<p><strong>This is bad.</strong> You have no overview of the string, there's a lot of boilerplate code in it. Moreover, if you need to change the position of any element you need to take care of this boilerplate code. Another solution, more elegant:</p>
+
+<div class="highlight highlight-java"><pre><span class="n">String</span> <span class="n">query</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"SELECT %s, %s, %s, %s "</span> <span class="o">+</span>
+                        <span class="s">"FROM %s "</span> <span class="o">+</span>
+                        <span class="s">"WHERE %s LIKE %s "</span> <span class="o">+</span>
+                        <span class="s">"ORDER BY %s LIMIT %s OFFSET %s"</span><span class="o">,</span>
+                        <span class="n">COLUMN_ID</span><span class="o">,</span> <span class="n">COLUMN_NAME</span><span class="o">,</span> <span class="n">COLUMN_LATITUDE</span><span class="o">,</span> <span class="n">COLUMN_LONGITUDE</span><span class="o">,</span> 
+                        <span class="n">TABLE_NAME</span><span class="o">,</span> <span class="n">COLUMN_NAME</span><span class="o">,</span> <span class="n">COLUMN_NAME</span><span class="o">,</span> <span class="n">search</span><span class="o">,</span> <span class="n">maxResult</span><span class="o">,</span> <span class="n">from</span><span class="o">);</span>
+</pre></div>
+
+<p><strong>This is still bad.</strong> The readability is better yet not optimal, you don't know what are these <code>%s</code> unless you count the following arguments. The same thing if you need to maintain this string.</p>
+
+<h1>
+<a name="meet-string-format" class="anchor" href="#meet-string-format"><span class="octicon octicon-link"></span></a>Meet <code>string-format</code>
+</h1>
+
+<p>Here is a better solution, that improves readability and maintenance.</p>
+
+<div class="highlight highlight-java"><pre><span class="n">String</span> <span class="n">query</span> <span class="o">=</span> <span class="n">Strings</span><span class="o">.</span><span class="na">format</span><span class="o">(</span>
+            <span class="s">"SELECT {id}, {name}, {latitude}, {longitude} "</span> <span class="o">+</span>
+                    <span class="s">"FROM {table} "</span> <span class="o">+</span>
+                    <span class="s">"WHERE {search_field} LIKE {search_value} "</span> <span class="o">+</span>
+                    <span class="s">"ORDER BY {name} LIMIT {limit} OFFSET {offset}"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="n">COLUMN_ID</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="n">COLUMN_NAME</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"latitude"</span><span class="o">,</span> <span class="n">COLUMN_LATITUDE</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"longitude"</span><span class="o">,</span> <span class="n">COLUMN_LONGITUDE</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"table"</span><span class="o">,</span> <span class="n">TABLE_NAME</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"search_field"</span><span class="o">,</span> <span class="n">COLUMN_NAME</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"search_value"</span><span class="o">,</span> <span class="n">search</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"limit"</span><span class="o">,</span> <span class="n">maxResult</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="s">"offset"</span><span class="o">,</span> <span class="n">from</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+</pre></div>
+
+<blockquote>
+<p><strong>NOTE:</strong> If you forget an argument or add an extra argument that is not used in the string, it will raise an <code>exception</code> that tells you exactly what's wrong. See the <a href="https://github.com/JoanZapata/string-format/blob/master/src/test/java/com/joanzapata/utils/StringsTest.java#L23-L48">tests</a> for more examples.</p>
+</blockquote>
 
 <h1>
 <a name="get-it" class="anchor" href="#get-it"><span class="octicon octicon-link"></span></a>Get it</h1>
