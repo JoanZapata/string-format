@@ -10,7 +10,7 @@
 
     <groupId>com.joanzapata.utils</groupId>
     <artifactId>string-format</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <description>An advanced String.format</description>
