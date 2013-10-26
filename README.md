@@ -1,4 +1,31 @@
-# Usage
+# Before ```string-format```
+
+There are a few situations in which you need to construct a big string with a lot of arguments.
+In these situations, one of your options is to concatenate each part like this:
+
+```java
+String query = "SELECT " + COLUMN_ID + ", " + COLUMN_NAME + ", " + COLUMN_LATITUDE + ", " + COLUMN_LONGITUDE + " " +
+                        "FROM " + TABLE_NAME + " " +
+                        "WHERE " + COLUMN_NAME + " LIKE " + search + " " +
+                        "ORDER BY " + COLUMN_NAME + " LIMIT " + maxResult + " OFFSET " + from;
+```
+
+**This is bad.** You have no overview of the string, there's a lot of boilerplate code in it. Moreover, if you need to change the position of any element you need to take care of this boilerplate code. Another solution, more elegant:
+
+```java
+String query = String.format("SELECT %s, %s, %s, %s " +
+                        "FROM %s " +
+                        "WHERE %s LIKE %s " +
+                        "ORDER BY %s LIMIT %s OFFSET %s",
+                        COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE, 
+                        TABLE_NAME, COLUMN_NAME, COLUMN_NAME, search, maxResult, from);
+```
+
+**This is still bad.** The readability is better yet not optimal, you don't know what are these ```%s``` unless you count the following arguments. The same thing if you need to maintain this string.
+
+# Meet ```string-format```
+
+I come with a better solution that improves readability and maintenance.
 
 ```java
 Strings.format("Hello {firstname} {lastname}!")
@@ -6,6 +33,8 @@ Strings.format("Hello {firstname} {lastname}!")
 	.with("lastname", "Doe")
 	.build();
 ```
+
+> **NOTE:** If you forget an argument or add an extra argument that is not used in the string, it will raise an ```exception``` that tells you exactly what's wrong. See the [tests](https://github.com/JoanZapata/string-format/blob/master/src/test/java/com/joanzapata/utils/StringsTest.java#L23-L48) for more examples.
 
 # Get it
 
