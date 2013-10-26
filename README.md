@@ -25,13 +25,24 @@ String query = String.format("SELECT %s, %s, %s, %s " +
 
 # Meet ```string-format```
 
-I come with a better solution that improves readability and maintenance.
+Here is a better solution, that improves readability and maintenance.
 
 ```java
-Strings.format("Hello {firstname} {lastname}!")
-	.with("firstname", "John")
-	.with("lastname", "Doe")
-	.build();
+String query = Strings.format(
+			"SELECT {id}, {name}, {latitude}, {longitude} " +
+					"FROM {table} " +
+					"WHERE {search_field} LIKE {search_value} " +
+					"ORDER BY {name} LIMIT {limit} OFFSET {offset}")
+			.with("id", COLUMN_ID)
+			.with("name", COLUMN_NAME)
+			.with("latitude", COLUMN_LATITUDE)
+			.with("longitude", COLUMN_LONGITUDE)
+			.with("table", TABLE_NAME)
+			.with("search_field", COLUMN_NAME)
+			.with("search_value", search)
+			.with("limit", maxResult)
+			.with("offset", from)
+			.make();
 ```
 
 > **NOTE:** If you forget an argument or add an extra argument that is not used in the string, it will raise an ```exception``` that tells you exactly what's wrong. See the [tests](https://github.com/JoanZapata/string-format/blob/master/src/test/java/com/joanzapata/utils/StringsTest.java#L23-L48) for more examples.
