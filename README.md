@@ -1,4 +1,4 @@
-# Before ```string-format```
+# Before string-format...
 
 There are a few situations in which you need to construct a big string with a lot of arguments.
 In these situations, one of your options is to concatenate each part like this:
@@ -23,7 +23,7 @@ String query = String.format("SELECT %s, %s, %s, %s " +
 
 **This is still bad.** The readability is better yet not optimal, you don't know what are these ```%s``` unless you count the following arguments. The same thing if you need to maintain this string.
 
-# Meet ```string-format```
+# Meet string-format!
 
 Here is a better solution, that improves readability and maintenance.
 
