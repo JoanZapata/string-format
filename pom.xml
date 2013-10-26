@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.joanzapata.utils</groupId>
+    <artifactId>string-format</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <description>An advanced String.format</description>
+    <url>http://joanzapata.com/string-format/</url>
+    <inceptionYear>2013</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>http://github.com/JoanZapata/string-format/</url>
+        <connection>scm:git:git://github.com/JoanZapata/string-format.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/JoanZapata/string-format.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Joan Zapata</name>
+            <email>zapata.joan@gmail.com</email>
+            <url>http://joanzapata.com</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <junit.version>4.11</junit.version>
+        <maven-license.version>1.10.b1</maven-license.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <plugins>
+        <plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <version>${maven-license.version}</version>
+            <configuration>
+                <header>LICENSE.txt</header>
+                <excludes>
+                    <exclude>**/.idea/**</exclude>
+                    <exclude>**/*.iml</exclude>
+                    <exclude>LICENSE.txt</exclude>
+                    <exclude>RELEASE.md</exclude>
+                    <exclude>.gitignore</exclude>
+                    <exclude>README.md</exclude>
+                </excludes>
+                <strictCheck>true</strictCheck>
+            </configuration>
+        </plugin>
+    </plugins>
+</project>
