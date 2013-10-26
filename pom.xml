@@ -49,23 +49,25 @@
         </dependency>
     </dependencies>
 
-    <plugins>
-        <plugin>
-            <groupId>com.mycila.maven-license-plugin</groupId>
-            <artifactId>maven-license-plugin</artifactId>
-            <version>${maven-license.version}</version>
-            <configuration>
-                <header>LICENSE.txt</header>
-                <excludes>
-                    <exclude>**/.idea/**</exclude>
-                    <exclude>**/*.iml</exclude>
-                    <exclude>LICENSE.txt</exclude>
-                    <exclude>RELEASE.md</exclude>
-                    <exclude>.gitignore</exclude>
-                    <exclude>README.md</exclude>
-                </excludes>
-                <strictCheck>true</strictCheck>
-            </configuration>
-        </plugin>
-    </plugins>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>${maven-license.version}</version>
+                <configuration>
+                    <header>LICENSE.txt</header>
+                    <excludes>
+                        <exclude>**/.idea/**</exclude>
+                        <exclude>**/*.iml</exclude>
+                        <exclude>LICENSE.txt</exclude>
+                        <exclude>RELEASE.md</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>README.md</exclude>
+                    </excludes>
+                    <strictCheck>true</strictCheck>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
