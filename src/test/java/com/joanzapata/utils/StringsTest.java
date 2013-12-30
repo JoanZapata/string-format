@@ -29,6 +29,15 @@ public class StringsTest {
                         .build());
     }
 
+    @Test
+    public void format_nominal_custom_prefix_suffix() {
+        Assert.assertEquals("Hello John Doe!",
+                Strings.format("Hello [firstname] [lastname]!", "[", "]")
+                        .with("firstname", "John")
+                        .with("lastname", "Doe")
+                        .build());
+    }
+
     @Test(expected = MissingKeyException.class)
     public void format_missingArg() {
         Assert.assertEquals("Hello John Doe!",
@@ -46,4 +55,5 @@ public class StringsTest {
                         .with("extra", "Extra")
                         .build());
     }
+
 }

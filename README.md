@@ -45,17 +45,26 @@ String query = Strings.format(
 			.make();
 ```
 
+You can also use custom prefix and suffix.
+
+```java
+Strings.format("Hello [firstname] [lastname]!", "[", "]")
+	.with("firstname", "John")
+	.with("lastname", "Doe")
+	.build();
+```
+
 > **NOTE:** If you forget an argument or add an extra argument that is not used in the string, it will raise an ```exception``` that tells you exactly what's wrong. See the [tests](https://github.com/JoanZapata/string-format/blob/master/src/test/java/com/joanzapata/utils/StringsTest.java#L23-L48) for more examples.
 
 # Get it
 
-[Download JAR](http://search.maven.org/remotecontent?filepath=com/joanzapata/utils/string-format/1.0.0/string-format-1.0.0.jar) or via **Maven Central**
+[Download JAR](http://search.maven.org/remotecontent?filepath=com/joanzapata/utils/string-format/1.0.1/string-format-1.0.1.jar) or via **Maven Central**
 
 ```xml
 <dependency>
     <groupId>com.joanzapata.utils</groupId>
     <artifactId>string-format</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -75,4 +84,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-``
+```

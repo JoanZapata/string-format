@@ -18,6 +18,8 @@ package com.joanzapata.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.quote;
+
 /**
  * Usage:
  * <p/>
@@ -50,14 +52,38 @@ public final class Strings {
         return new Builder(string);
     }
 
+    /**
+     * Usage:
+     * <p/>
+     * <pre>
+     *     Strings.format("Hello [firstname] [lastname]!", "[", "]")
+     *         .with("firstname", "John")
+     *         .with("lastname", "Doe")
+     *         .build();
+     * </pre>
+     * @return The formatted string.
+     */
+    public static Builder format(String string, String prefix, String suffix) {
+        return new Builder(string, prefix, suffix);
+    }
+
     public static class Builder {
 
-        private final static Pattern pattern = Pattern.compile("\\{.*?\\}");
+        private final Pattern pattern;
 
         private String baseString;
+        private String prefix;
+        private String suffix;
 
         private Builder(String string) {
+            this(string, "{", "}");
+        }
+
+        private Builder(String string, String prefix, String suffix) {
             baseString = string;
+            this.prefix = prefix;
+            this.suffix = suffix;
+            pattern = Pattern.compile(quote(prefix) + ".*?" + quote(suffix));
         }
 
         /**
@@ -67,9 +93,9 @@ public final class Strings {
          */
         public Builder with(String key, Object value) {
             if (value == null) value = "";
-            if (!baseString.contains("{" + key + "}"))
+            if (!baseString.contains(prefix + key + suffix))
                 throw new KeyNotFoundException(key, baseString);
-            baseString = baseString.replace("{" + key + "}", value.toString());
+            baseString = baseString.replace(prefix + key + suffix, value.toString());
             return this;
         }
 
