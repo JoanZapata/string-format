@@ -74,6 +74,7 @@ public final class Strings {
         private String baseString;
         private String prefix;
         private String suffix;
+        private boolean strictMode = true;
 
         private Builder(String string) {
             this(string, "{", "}");
@@ -87,13 +88,24 @@ public final class Strings {
         }
 
         /**
+         * If you set the strict mode to false, the builder won't throw any exception
+         * if a key is not found or if a key is still present in the final string.
+         * @param active
+         * @return
+         */
+        public Builder strictMode(boolean active) {
+            this.strictMode = active;
+            return this;
+        }
+
+        /**
          * @param key   The key, without the '{}'.
          * @param value The value to put for that key.
          * @return The builder for DSL.
          */
         public Builder with(String key, Object value) {
             if (value == null) value = "";
-            if (!baseString.contains(prefix + key + suffix))
+            if (strictMode && !baseString.contains(prefix + key + suffix))
                 throw new KeyNotFoundException(key, baseString);
             baseString = baseString.replace(prefix + key + suffix, value.toString());
             return this;
@@ -102,7 +114,7 @@ public final class Strings {
         /** Create the final string. */
         public String build() {
             final Matcher matcher = pattern.matcher(baseString);
-            if (matcher.find()) {
+            if (strictMode && matcher.find()) {
                 throw new MissingKeyException(matcher.group());
             } else {
                 return baseString;

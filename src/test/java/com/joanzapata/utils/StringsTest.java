@@ -56,4 +56,22 @@ public class StringsTest {
                         .build());
     }
 
+    @Test
+    public void format_missingArg_noStrict() {
+        Assert.assertEquals("Hello John {lastname}!",
+                Strings.format("Hello {firstname} {lastname}!")
+                        .with("firstname", "John")
+                        .build());
+    }
+
+    @Test
+    public void format_extraArg_noStrict() {
+        Assert.assertEquals("Hello John Doe!",
+                Strings.format("Hello {firstname} {lastname}!")
+                        .with("firstname", "John")
+                        .with("lastname", "John")
+                        .with("extra", "Extra")
+                        .build());
+    }
+
 }
