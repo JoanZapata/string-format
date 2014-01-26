@@ -59,7 +59,7 @@ public class StringsTest {
     @Test
     public void format_missingArg_noStrict() {
         Assert.assertEquals("Hello John {lastname}!",
-                Strings.format("Hello {firstname} {lastname}!")
+                Strings.format("Hello {firstname} {lastname}!").strictMode(false)
                         .with("firstname", "John")
                         .build());
     }
@@ -67,9 +67,9 @@ public class StringsTest {
     @Test
     public void format_extraArg_noStrict() {
         Assert.assertEquals("Hello John Doe!",
-                Strings.format("Hello {firstname} {lastname}!")
+                Strings.format("Hello {firstname} {lastname}!").strictMode(false)
                         .with("firstname", "John")
-                        .with("lastname", "John")
+                        .with("lastname", "Doe")
                         .with("extra", "Extra")
                         .build());
     }
