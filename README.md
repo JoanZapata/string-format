@@ -42,7 +42,7 @@ String query = Strings.format(
 			.with("search_value", search)
 			.with("limit", maxResult)
 			.with("offset", from)
-			.make();
+			.build();
 ```
 
 You can also use custom prefix and suffix.
