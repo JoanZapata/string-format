@@ -71,7 +71,7 @@ Strings.format("Hello [firstname] [lastname]!", "[", "]")
 # License
 
 ```
-Copyright 2013 Joan Zapata
+Copyright 2014 Joan Zapata
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
